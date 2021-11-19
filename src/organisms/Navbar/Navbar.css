@@ -1,0 +1,131 @@
+.nav {
+  background: #ffffff;
+  height: 80px;
+  padding: 28px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item:not(.home-icon) {
+  margin-right: 32px;
+  color: black;
+  padding: 28px 0px 32px 0px;
+  text-decoration: none;
+}
+
+.nav-item.active:not(.home-icon) {
+  color: #5ece7b;
+  font-weight: 600;
+  border-bottom: 2px solid #5ece7b;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.currency-switcher {
+  margin-right: 22px;
+  position: relative;
+}
+
+.currency-switcher-box {
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+}
+
+.currency {
+  margin-right: 4px;
+}
+
+.currency-switcher-popup {
+  cursor: default;
+  position: absolute;
+  box-shadow: 0 0 50px rgb(0 0 0 / 0.1);
+  border-radius: 5px;
+  top: 30px;
+  left: -20px;
+  z-index: 500;
+  width: 114px;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  align-items: flex-start;
+  justify-items: flex-start;
+}
+
+.currency-item {
+  margin-bottom: 21px;
+  cursor: pointer;
+}
+
+.cartIcon-container {
+}
+
+.cart-switch-box {
+  cursor: pointer;
+}
+
+.cart-popup-overlay {
+  cursor: default;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  z-index: 500;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 87px;
+  background: #39374822;
+}
+
+.cart-popup-overlay .cart-popup {
+  background: #fff;
+  width: 20%;
+  height: max-content !important;
+  padding: 0 18px;
+}
+
+.cart-popup .bold-text {
+  font-weight: 700;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  max-height: 137px;
+  margin-bottom: 41px;
+}
+
+.cart-item-desc {
+  max-width: 50%;
+}
+
+.cart-item-img {
+  max-height: 100%;
+  max-width: 50%;
+}
+
+.cart-item-img img {
+  max-height: 137px;
+}
+
+.cart-item-desc .cart-item-name {
+  font-weight: 300;
+  color: #1d1f22;
+}
+
+.cart-item-desc .cart-item-price {
+  font-weight: 600;
+}
