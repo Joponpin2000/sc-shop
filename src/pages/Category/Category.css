@@ -19,6 +19,8 @@
   height: 444px;
   padding: 16px;
   background: #fff;
+  text-decoration: none;
+  color: inherit;
 }
 
 .product-img {

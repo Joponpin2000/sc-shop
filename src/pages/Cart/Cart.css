@@ -1,0 +1,84 @@
+.CartContainer {
+  padding: 80px 100px;
+  width: 90%;
+}
+
+.CartContainer .page-title {
+  font-size: 32px;
+  font-weight: 700;
+}
+.cart-screen-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
+}
+
+.cs-item-name {
+  font-weight: 600;
+  font-size: 32px;
+  width: 292px;
+}
+
+.cs-item-price {
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.cs-sizes {
+  display: flex;
+  align-items: center;
+}
+.cs-size-box {
+  margin-top: 16px;
+  text-align: center;
+  border: 1px solid gray;
+  height: 45px;
+  width: 63px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+}
+
+.cs-item-side {
+  height: 185px;
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cs-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 10%;
+}
+
+.cs-item-mutate-btn {
+  text-align: center;
+  border: 1px solid gray;
+  height: 45px;
+  width: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.cs-item-number {
+  font-weight: 500;
+}
+
+.cs-item-side img {
+  width: 80%;
+  height: 100%;
+}

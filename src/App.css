@@ -37,3 +37,15 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+/* scroll bar */
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: rgb(184, 180, 180);
+  border-radius: 100%;
+}
+*::-webkit-scrollbar-thumb {
+  background: #1dcf65;
+  border-radius: 100%;
+}
