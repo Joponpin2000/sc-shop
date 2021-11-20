@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./organisms/Navbar";
+import Navbar from "./components/Navbar";
 import Category from "./pages/Category/index";
 
 import "./App.css";
@@ -8,6 +8,7 @@ import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
 
 class App extends Component {
+  
   render() {
     return (
       <Router>

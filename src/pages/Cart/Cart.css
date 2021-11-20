@@ -1,6 +1,6 @@
 .CartContainer {
   padding: 80px 100px;
-  width: 90%;
+  width: 85%;
 }
 
 .CartContainer .page-title {
@@ -79,6 +79,6 @@
 }
 
 .cs-item-side img {
-  width: 80%;
+  width: 70%;
   height: 100%;
 }

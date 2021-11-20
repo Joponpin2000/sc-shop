@@ -1,16 +1,31 @@
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  getCurrency,
+  changeCurrency,
+} from "../../redux/actions/currencyActions";
 import CaretDownIcon from "../../vectors/CaretDownIcon";
 import CartIcon from "../../vectors/CartIcon";
 import LogoIcon from "../../vectors/LogoIcon";
 import "./Navbar.css";
 
 class Navbar extends Component {
+  componentDidMount() {
+    this.props.getCurrency();
+  }
   constructor() {
     super();
     this.state = {
       isCurrencyPopupOpen: false,
       isCartPopupOpen: false,
+      currencies: [
+        { symbol: "$", name: "USD" },
+        { symbol: "£", name: "GBP" },
+        { symbol: "A$", name: "AUD" },
+        { symbol: "¥", name: "JPY" },
+        { symbol: "₽", name: "RUB" },
+      ],
     };
   }
 
@@ -25,17 +40,17 @@ class Navbar extends Component {
       <>
         <div className="nav">
           <nav className="nav-links">
-            <NavLink className="nav-item" to="/women" activeStyle>
+            <NavLink className="nav-item" to="/women" activestyle>
               WOMEN
             </NavLink>
-            <NavLink className="nav-item" to="/men" activeStyle>
+            <NavLink className="nav-item" to="/men" activestyle>
               MEN
             </NavLink>
-            <NavLink className="nav-item" to="kids" activeStyle>
+            <NavLink className="nav-item" to="kids" activestyle>
               KIDS
             </NavLink>
           </nav>
-          <NavLink className="nav-item home-icon" to="/" activeStyle>
+          <NavLink className="nav-item home-icon" to="/" activestyle>
             <LogoIcon />
           </NavLink>
           <div className="nav-actions">
@@ -46,14 +61,21 @@ class Navbar extends Component {
                   this.setIsCurrencyPopupOpen(!this.state.isCurrencyPopupOpen)
                 }
               >
-                <div className="currency">$</div>
+                <div className="currency">{this.props.currency.symbol}</div>
+
                 <CaretDownIcon />
               </div>
               {this.state.isCurrencyPopupOpen && (
                 <div className="currency-switcher-popup">
-                  <div className="currency-item">$ USD</div>
-                  <div className="currency-item">€ EUR</div>
-                  <div className="currency-item">¥ JPY</div>
+                  {this.state.currencies.map((c, index) => (
+                    <div
+                      className="currency-item"
+                      key={`currency-${index}`}
+                      onClick={() => this.props.changeCurrency(c)}
+                    >
+                      {c.symbol + " " + c.name}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -129,4 +151,10 @@ class Navbar extends Component {
     );
   }
 }
-export default Navbar;
+
+const mapStateToProps = (state) => ({
+  currency: state.currency.selectedCurrency,
+});
+export default connect(mapStateToProps, { getCurrency, changeCurrency })(
+  Navbar
+);

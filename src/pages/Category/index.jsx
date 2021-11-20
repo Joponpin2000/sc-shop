@@ -1,31 +1,113 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ApolloClient from "apollo-boost";
+import { connect } from "react-redux";
+import { getCurrency } from "../../redux/actions/currencyActions";
+import gql from "graphql-tag";
+import AddToCartIcon from "../../vectors/AddToCartIcon";
 import "./Category.css";
 
-const Category = () => {
-  return (
-    <div className="CategoryContainer">
-      <div className="category-title">Category Name</div>
-      <div className="product-container">
-        {Array(8)
-          .fill("")
-          .map((product, index) => (
-            <Link to={`/product/${index}`} key={index} className="product-card">
-              <div className="product-img">
-                <img src="/images/sample-product-image.png" alt="product" />
-                <div className="out-of-stock-flag">
-                  <p>OUT OF STOCK</p>
-                </div>
-              </div>
-              <div className="product-desc">
-                <p className="product-name"> Apollo Running Short</p>
-                <p className="product-price">$50.00</p>
-              </div>
-            </Link>
-          ))}
-      </div>
-    </div>
-  );
-};
+class Category extends Component {
+  constructor() {
+    super();
+    this.state = {
+      products: [],
+    };
+  }
+  async componentDidMount() {
+    try {
+      var client = new ApolloClient({
+        uri: "http://localhost:4000",
+      });
 
-export default Category;
+      var { products } = await client
+        .query({
+          query: gql`
+            query {
+              category(input: { title: "" }) {
+                name
+                products {
+                  name
+                  id
+                  inStock
+                  gallery
+                  description
+                  category
+                  attributes {
+                    name
+                    type
+                    items {
+                      displayValue
+                      value
+                      id
+                    }
+                  }
+                  prices {
+                    currency
+                    amount
+                  }
+                  brand
+                }
+              }
+            }
+          `,
+        })
+        .then((result) => result.data.category);
+      this.setState({ products: products });
+      console.log(products);
+    } catch (exception) {
+      console.error(exception);
+    }
+  }
+
+  render() {
+    return (
+      <div className="CategoryContainer">
+        <div className="category-title">Category Name</div>
+        <div className="product-container">
+          {this.state.products &&
+            this.state.products.length &&
+            this.state.products.map((product, index) => (
+              <Link
+                to={`/product/${index}`}
+                key={index}
+                className="product-card"
+              >
+                <div className="product-img">
+                  <img src={product.gallery[0]} alt="product" />
+                  {!product.inStock && (
+                    <div className="out-of-stock-flag">
+                      <p>OUT OF STOCK</p>
+                    </div>
+                  )}
+                  <Link
+                    to="/cart"
+                    className="add-to-cart-icon"
+                    onClick={() => alert("clicked")}
+                  >
+                    <AddToCartIcon className="add-to-cart-icon" />
+                  </Link>
+                </div>
+                <div className="product-desc">
+                  <p className="product-name"> {product.name}</p>
+                  <p className="product-price">
+                    {this.props.currency.symbol}
+                    {
+                      product.prices.find(
+                        (p) => p.currency === this.props.currency.name
+                      ).amount
+                    }
+                  </p>
+                </div>
+              </Link>
+            ))}
+        </div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  currency: state.currency.selectedCurrency,
+});
+export default connect(mapStateToProps, { getCurrency })(Category);
