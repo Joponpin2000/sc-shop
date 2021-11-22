@@ -8,13 +8,13 @@ import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
 
 class App extends Component {
-  
   render() {
     return (
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Category />} />
+          <Route path="/:category" element={<Category />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:slug" element={<ProductDetails />} />
         </Routes>

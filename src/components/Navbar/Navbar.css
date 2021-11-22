@@ -69,11 +69,26 @@
   cursor: pointer;
 }
 
-.cartIcon-container {
+.cart-switch-box {
+  position: relative;
+  cursor: pointer;
 }
 
-.cart-switch-box {
-  cursor: pointer;
+.cart-switch-box .cart-count {
+  position: absolute;
+  bottom: 10px;
+  right: -10px;
+  border-radius: 100%;
+  background: black;
+  height: 16px;
+  width: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .cart-popup-overlay {

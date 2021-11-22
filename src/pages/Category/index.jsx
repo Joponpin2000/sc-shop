@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ApolloClient from "apollo-boost";
 import { connect } from "react-redux";
 import { getCurrency } from "../../redux/actions/currencyActions";
+import { addToCart } from "../../redux/actions/cartActions";
 import gql from "graphql-tag";
 import AddToCartIcon from "../../vectors/AddToCartIcon";
 import "./Category.css";
@@ -15,6 +16,7 @@ class Category extends Component {
     };
   }
   async componentDidMount() {
+    let queryPath = window.location.pathname.slice(1);
     try {
       var client = new ApolloClient({
         uri: "http://localhost:4000",
@@ -24,7 +26,7 @@ class Category extends Component {
         .query({
           query: gql`
             query {
-              category(input: { title: "" }) {
+              category(input: { title: "${queryPath}" }) {
                 name
                 products {
                   name
@@ -66,7 +68,7 @@ class Category extends Component {
         <div className="category-title">Category Name</div>
         <div className="product-container">
           {this.state.products &&
-            this.state.products.length &&
+            this.state.products.length > 1 &&
             this.state.products.map((product, index) => (
               <Link
                 to={`/product/${index}`}
@@ -83,7 +85,7 @@ class Category extends Component {
                   <Link
                     to="/cart"
                     className="add-to-cart-icon"
-                    onClick={() => alert("clicked")}
+                    onClick={() => this.props.addToCart(product, 1)}
                   >
                     <AddToCartIcon className="add-to-cart-icon" />
                   </Link>
@@ -108,6 +110,7 @@ class Category extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  cartItems: state.cart.cartItems,
   currency: state.currency.selectedCurrency,
 });
-export default connect(mapStateToProps, { getCurrency })(Category);
+export default connect(mapStateToProps, { getCurrency, addToCart })(Category);
