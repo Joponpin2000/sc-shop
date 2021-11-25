@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { addToCart } from "../../redux/actions/cartActions";
 import {
   getCurrency,
   changeCurrency,
@@ -15,11 +16,11 @@ export class CartPage extends Component {
         {this.props.cartItems.map((item, index) => (
           <div className="cart-screen-item">
             <div className="cs-item-desc">
-              <div className="cs-item-name">{item.productName}</div>
+              <div className="cs-item-name">{item.name}</div>
               <div className="cs-item-price">
                 {this.props.currency.symbol}{" "}
                 {
-                  item.productPrices.find(
+                  item.prices.find(
                     (p) => p.currency === this.props.currency.name
                   ).amount
                 }
@@ -31,11 +32,28 @@ export class CartPage extends Component {
             </div>
             <div className="cs-item-side">
               <div className="cs-item-actions">
-                <div className="cs-item-mutate-btn">+</div>
-                <p className="cs-item-number">2</p>
-                <div className="cs-item-mutate-btn">-</div>
+                <div
+                  className="cs-item-mutate-btn"
+                  onClick={() => this.props.addToCart(item, item.qty + 1)}
+                >
+                  +
+                </div>
+                <p className="cs-item-number">{item.qty}</p>
+                <div
+                  className={`cs-item-mutate-btn ${
+                    item.qty === 1 ? "disabled" : ""
+                  }`}
+                  onClick={() =>
+                    this.props.addToCart(
+                      item,
+                      item.qty === 1 ? 1 : item.qty - 1
+                    )
+                  }
+                >
+                  -
+                </div>
               </div>
-              <img src="/images/sample-product-image.png" alt="cart item" />
+              <img src={item.gallery[0]} alt="cart item" />
             </div>
           </div>
         ))}
@@ -47,6 +65,8 @@ const mapStateToProps = (state) => ({
   cartItems: state.cart.cartItems,
   currency: state.currency.selectedCurrency,
 });
-export default connect(mapStateToProps, { getCurrency, changeCurrency })(
-  CartPage
-);
+export default connect(mapStateToProps, {
+  addToCart,
+  getCurrency,
+  changeCurrency,
+})(CartPage);

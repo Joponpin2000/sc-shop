@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
+import CurrencyMath from "currency.js";
 import { connect } from "react-redux";
+import { addToCart } from "../../redux/actions/cartActions";
 import {
   getCurrency,
   changeCurrency,
@@ -94,16 +96,22 @@ class Navbar extends Component {
                 <div className="cart-popup-overlay">
                   <div className="cart-popup">
                     <p className="cart-title">
-                      <span className="bold-text">My Bag,</span> 2 items
+                      <span className="bold-text">My Bag,</span>{" "}
+                      {this.props.cartItems.length} items
                     </p>
                     <div className="cart-list">
                       {this.props.cartItems.map((product, index) => (
                         <div className="cart-item" key={index}>
                           <div className="cart-item-desc">
-                            <p className="cart-item-name">
-                              Apollo Running Short
+                            <p className="cart-item-name">{product.name}</p>
+                            <p className="cart-item-price">
+                              {this.props.currency.symbol}
+                              {
+                                product.prices.find(
+                                  (p) => p.currency === this.props.currency.name
+                                ).amount
+                              }
                             </p>
-                            <p className="cart-item-price">$50.00</p>
                             <div className="cart-product-sizes">
                               <div className="cart-product-size-box">S</div>
                               <div className="cart-product-size-box">M</div>
@@ -111,14 +119,31 @@ class Navbar extends Component {
                           </div>
                           <div className="cart-item-img">
                             <div className="cart-item-actions">
-                              <div className="cart-item-mutate-btn">+</div>
-                              <p className="cart-item-number">2</p>
-                              <div className="cart-item-mutate-btn">-</div>
+                              <div
+                                className="cart-item-mutate-btn
+                              "
+                                onClick={() =>
+                                  this.props.addToCart(product, product.qty + 1)
+                                }
+                              >
+                                +
+                              </div>
+                              <p className="cart-item-number">{product.qty}</p>
+                              <div
+                                className={`cart-item-mutate-btn ${
+                                  product.qty === 1 ? "disabled" : ""
+                                }`}
+                                onClick={() =>
+                                  this.props.addToCart(
+                                    product,
+                                    product.qty === 1 ? 1 : product.qty - 1
+                                  )
+                                }
+                              >
+                                -
+                              </div>
                             </div>
-                            <img
-                              src="/images/sample-product-image.png"
-                              alt="cart item"
-                            />
+                            <img src={product.gallery[0]} alt="cart item" />
                           </div>
                         </div>
                       ))}
@@ -126,7 +151,32 @@ class Navbar extends Component {
                     <div className="cart-popup-footer">
                       <div className="cart-total-box">
                         <p className="cart-total-label">Total</p>
-                        <p className="cart-total-value">$100.00</p>
+                        <p className="cart-total-value">
+                          {" "}
+                          {this.props.currency.symbol}
+                          {/* {JSON.stringify(
+                            this.props.cartItems.reduce((item, acc) => {
+                              let cp = item.prices.find(
+                                (p) => p.currency === this.props.currency.name
+                              ).amount;
+                              console.log("cp", cp);
+                              return acc + cp;
+                            })
+                          )} */}
+                          {
+                            CurrencyMath(
+                              this.props.cartItems
+                                .map((item) =>
+                                  item.prices.filter(
+                                    (p) =>
+                                      p.currency === this.props.currency.name
+                                  )
+                                )
+                                .map((i) => i[0].amount)
+                                .reduce((v, acc) => v + acc, 0)
+                            ).value
+                          }
+                        </p>
                       </div>
                       <div className="cart-popup-btns">
                         <Link
@@ -155,6 +205,8 @@ const mapStateToProps = (state) => ({
   cartItems: state.cart.cartItems,
   currency: state.currency.selectedCurrency,
 });
-export default connect(mapStateToProps, { getCurrency, changeCurrency })(
-  Navbar
-);
+export default connect(mapStateToProps, {
+  addToCart,
+  getCurrency,
+  changeCurrency,
+})(Navbar);

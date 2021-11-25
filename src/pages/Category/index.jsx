@@ -82,13 +82,15 @@ class Category extends Component {
                       <p>OUT OF STOCK</p>
                     </div>
                   )}
-                  <Link
-                    to="/cart"
-                    className="add-to-cart-icon"
-                    onClick={() => this.props.addToCart(product, 1)}
-                  >
-                    <AddToCartIcon className="add-to-cart-icon" />
-                  </Link>
+                  {product.inStock && (
+                    <Link
+                      to="/cart"
+                      className="add-to-cart-icon"
+                      onClick={() => this.props.addToCart(product, 1)}
+                    >
+                      <AddToCartIcon className="add-to-cart-icon" />
+                    </Link>
+                  )}
                 </div>
                 <div className="product-desc">
                   <p className="product-name"> {product.name}</p>

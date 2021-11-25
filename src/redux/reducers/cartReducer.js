@@ -10,14 +10,12 @@ export default function cartReducer(state = { cartItems: [] }, action) {
       return state;
     case CART_ADD_ITEM:
       const item = action.payload;
-      const product = state.cartItems.find(
-        (x) => x.productId === item.productId
-      );
+      const product = state.cartItems.find((x) => x.id === item.id);
       if (product) {
         return {
           ...state,
           cartItems: state.cartItems.map((x) =>
-            x.productId === product.productId ? item : x
+            x.id === product.id ? item : x
           ),
         };
       } else {
@@ -29,9 +27,7 @@ export default function cartReducer(state = { cartItems: [] }, action) {
 
     case CART_REMOVE_ITEM:
       return {
-        cartItems: state.cartItems.filter(
-          (x) => x.productId !== action.payload
-        ),
+        cartItems: state.cartItems.filter((x) => x.id !== action.payload),
       };
 
     default:
