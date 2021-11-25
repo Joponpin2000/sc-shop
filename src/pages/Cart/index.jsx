@@ -14,7 +14,7 @@ export class CartPage extends Component {
       <div className="CartContainer">
         <h1 className="page-title">CART</h1>
         {this.props.cartItems.map((item, index) => (
-          <div className="cart-screen-item">
+          <div className="cart-screen-item" key={index}>
             <div className="cs-item-desc">
               <div className="cs-item-name">{item.name}</div>
               <div className="cs-item-price">
@@ -26,15 +26,33 @@ export class CartPage extends Component {
                 }
               </div>
               <div className="cs-sizes">
-                <div className="cs-size-box">S</div>
-                <div className="cs-size-box">M</div>
+                {item.sizes.map((s, indx) => (
+                  <div
+                    onClick={() =>
+                      this.props.addToCart(item, item.qty, item.sizes, indx)
+                    }
+                    key={indx}
+                    className={`cs-size-box ${
+                      item.selectedSize === indx ? "selected-size" : ""
+                    }`}
+                  >
+                    {s.value}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="cs-item-side">
               <div className="cs-item-actions">
                 <div
                   className="cs-item-mutate-btn"
-                  onClick={() => this.props.addToCart(item, item.qty + 1)}
+                  onClick={() =>
+                    this.props.addToCart(
+                      item,
+                      item.qty + 1,
+                      item.sizes,
+                      item.selectedSize
+                    )
+                  }
                 >
                   +
                 </div>
@@ -46,7 +64,9 @@ export class CartPage extends Component {
                   onClick={() =>
                     this.props.addToCart(
                       item,
-                      item.qty === 1 ? 1 : item.qty - 1
+                      item.qty === 1 ? 1 : item.qty - 1,
+                      item.sizes,
+                      item.selectedSize
                     )
                   }
                 >

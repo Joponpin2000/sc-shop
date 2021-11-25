@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import AddToCartIcon from "../../vectors/AddToCartIcon";
 import "./Category.css";
 
-class Home extends Component {
+class Clothes extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,7 +25,7 @@ class Home extends Component {
         .query({
           query: gql`
             query {
-              category(input: { title: "" }) {
+              category(input: { title: "clothes" }) {
                 name
                 products {
                   name
@@ -64,7 +64,7 @@ class Home extends Component {
   render() {
     return (
       <div className="CategoryContainer">
-        <div className="category-title">All</div>
+        <div className="category-title">Clothes</div>
         <div className="product-container">
           {this.state.products &&
             this.state.products.length > 1 &&
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => ({
   cartItems: state.cart.cartItems,
   currency: state.currency.selectedCurrency,
 });
-export default connect(mapStateToProps, { getCurrency, addToCart })(Home);
+export default connect(mapStateToProps, { getCurrency, addToCart })(Clothes);

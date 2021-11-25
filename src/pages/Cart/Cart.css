@@ -45,6 +45,11 @@
   align-content: center;
 }
 
+.cs-size-box.selected-size {
+  background-color: #1d1f22;
+  color: white;
+}
+
 .cs-item-side {
   height: 185px;
   width: 200px;

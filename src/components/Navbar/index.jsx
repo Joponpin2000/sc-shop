@@ -113,8 +113,26 @@ class Navbar extends Component {
                               }
                             </p>
                             <div className="cart-product-sizes">
-                              <div className="cart-product-size-box">S</div>
-                              <div className="cart-product-size-box">M</div>
+                              {product.sizes.map((s, indx) => (
+                                <div
+                                  onClick={() =>
+                                    this.props.addToCart(
+                                      product,
+                                      product.qty,
+                                      product.sizes,
+                                      indx
+                                    )
+                                  }
+                                  key={indx}
+                                  className={`cart-product-size-box ${
+                                    product.selectedSize === indx
+                                      ? "selected-size"
+                                      : ""
+                                  }`}
+                                >
+                                  {s.value}
+                                </div>
+                              ))}
                             </div>
                           </div>
                           <div className="cart-item-img">
@@ -123,7 +141,12 @@ class Navbar extends Component {
                                 className="cart-item-mutate-btn
                               "
                                 onClick={() =>
-                                  this.props.addToCart(product, product.qty + 1)
+                                  this.props.addToCart(
+                                    product,
+                                    product.qty + 1,
+                                    product.sizes,
+                                    product.selectedSize
+                                  )
                                 }
                               >
                                 +
@@ -136,7 +159,9 @@ class Navbar extends Component {
                                 onClick={() =>
                                   this.props.addToCart(
                                     product,
-                                    product.qty === 1 ? 1 : product.qty - 1
+                                    product.qty === 1 ? 1 : product.qty - 1,
+                                    product.sizes,
+                                    product.selectedSize
                                   )
                                 }
                               >
@@ -152,28 +177,26 @@ class Navbar extends Component {
                       <div className="cart-total-box">
                         <p className="cart-total-label">Total</p>
                         <p className="cart-total-value">
-                          {" "}
                           {this.props.currency.symbol}
-                          {/* {JSON.stringify(
-                            this.props.cartItems.reduce((item, acc) => {
-                              let cp = item.prices.find(
-                                (p) => p.currency === this.props.currency.name
-                              ).amount;
-                              console.log("cp", cp);
-                              return acc + cp;
-                            })
-                          )} */}
                           {
                             CurrencyMath(
                               this.props.cartItems
-                                .map((item) =>
-                                  item.prices.filter(
-                                    (p) =>
-                                      p.currency === this.props.currency.name
-                                  )
-                                )
-                                .map((i) => i[0].amount)
-                                .reduce((v, acc) => v + acc, 0)
+                                .map((item) => {
+                                  return {
+                                    qty: item.qty,
+                                    price: item.prices.filter(
+                                      (p) =>
+                                        p.currency === this.props.currency.name
+                                    ),
+                                  };
+                                })
+                                .map((i) => {
+                                  return {
+                                    qty: i.qty,
+                                    amount: i.price[0].amount,
+                                  };
+                                })
+                                .reduce((v, acc) => v + acc.amount * acc.qty, 0)
                             ).value
                           }
                         </p>

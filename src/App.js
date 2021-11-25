@@ -6,6 +6,8 @@ import Category from "./pages/Category/index";
 import "./App.css";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
+import Tech from "./pages/Category/Tech";
+import Clothes from "./pages/Category/Clothes";
 
 class App extends Component {
   render() {
@@ -14,7 +16,8 @@ class App extends Component {
         <Navbar />
         <Routes>
           <Route path="/" element={<Category />} />
-          <Route path="/:category" element={<Category />} />
+          <Route path="/tech" element={<Tech />} />
+          <Route path="/clothes" element={<Clothes />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product/:slug" element={<ProductDetails />} />
         </Routes>
