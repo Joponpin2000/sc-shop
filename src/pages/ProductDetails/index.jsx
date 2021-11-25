@@ -20,7 +20,6 @@ export class ProductDetails extends Component {
     this.setState({ selectedSizeIndex: indx });
   }
   async componentDidMount() {
-    console.log(this.props);
     try {
       var client = new ApolloClient({
         uri: "http://localhost:4000",
@@ -58,7 +57,6 @@ export class ProductDetails extends Component {
         })
         .then((result) => result.data);
       this.setState({ product: product });
-      console.log(product);
     } catch (exception) {
       console.error(exception);
     }
@@ -113,9 +111,6 @@ export class ProductDetails extends Component {
             {this.state.product.inStock && (
               <button
                 onClick={() => {
-                  if (this.state.selectedSizeIndex < 0) {
-                    this.setSelectedSizeIndex(0);
-                  }
                   this.props.addToCart(
                     this.state.product,
                     1,

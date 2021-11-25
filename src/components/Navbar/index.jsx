@@ -16,6 +16,7 @@ import "./Navbar.css";
 class Navbar extends Component {
   componentDidMount() {
     this.props.getCurrency();
+    
   }
   constructor() {
     super();

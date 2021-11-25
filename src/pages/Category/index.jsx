@@ -55,7 +55,6 @@ class Home extends Component {
         })
         .then((result) => result.data.category);
       this.setState({ products: products });
-      console.log(products);
     } catch (exception) {
       console.error(exception);
     }
@@ -89,7 +88,7 @@ class Home extends Component {
                         this.props.addToCart(
                           product,
                           1,
-                          product?.attributes[0]?.items,
+                          product?.attributes[0]?.items ?? [],
                           0
                         )
                       }
