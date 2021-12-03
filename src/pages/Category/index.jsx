@@ -68,11 +68,7 @@ class Home extends Component {
           {this.state.products &&
             this.state.products.length > 1 &&
             this.state.products.map((product, index) => (
-              <Link
-                to={`/product/${product.id}`}
-                key={index}
-                className="product-card"
-              >
+              <div key={index} className="product-card">
                 <div className="product-img">
                   <img src={product.gallery[0]} alt="product" />
                   {!product.inStock && (
@@ -81,23 +77,27 @@ class Home extends Component {
                     </div>
                   )}
                   {product.inStock && (
-                    <Link
-                      to="/cart"
+                    <div
                       className="add-to-cart-icon"
                       onClick={() =>
                         this.props.addToCart(
                           product,
                           1,
                           product?.attributes[0]?.items ?? [],
-                          0
+                          [
+                            {
+                              name: product?.attributes[0]?.name,
+                              value: 0,
+                            },
+                          ]
                         )
                       }
                     >
                       <AddToCartIcon className="add-to-cart-icon" />
-                    </Link>
+                    </div>
                   )}
                 </div>
-                <div className="product-desc">
+                <Link to={`/product/${product.id}`} className="product-desc">
                   <p className="product-name"> {product.name}</p>
                   <p className="product-price">
                     {this.props.currency.symbol}
@@ -107,8 +107,8 @@ class Home extends Component {
                       ).amount
                     }
                   </p>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
         </div>
       </div>

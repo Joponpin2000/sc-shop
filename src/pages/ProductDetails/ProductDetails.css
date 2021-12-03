@@ -4,6 +4,7 @@
   align-items: flex-start;
   width: 100%;
   height: 800px;
+  overflow-y: hidden;
 }
 
 .side-images {
@@ -29,7 +30,10 @@
 }
 
 .product-details {
-  width: 292px;
+  width: 350px;
+  overflow-y: auto;
+  height: 100%;
+  padding-right: 20px;
 }
 .ProductDetailsContainer .product-name {
   font-weight: 600;
@@ -46,7 +50,9 @@
 }
 
 .different-sizes {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
 }
 
 .single-size-box {
@@ -54,7 +60,6 @@
   border: 1px solid gray;
   height: 45px;
   width: 63px;
-  margin-right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,6 +90,10 @@
   color: white;
   font-size: 600;
   border: none;
+}
+
+.add-to-cart-btn:disabled {
+  cursor: not-allowed;
 }
 
 .product-desc {

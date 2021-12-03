@@ -14,10 +14,6 @@ import LogoIcon from "../../vectors/LogoIcon";
 import "./Navbar.css";
 
 class Navbar extends Component {
-  componentDidMount() {
-    this.props.getCurrency();
-    
-  }
   constructor() {
     super();
     this.state = {
@@ -31,8 +27,27 @@ class Navbar extends Component {
         { symbol: "₽", name: "RUB" },
       ],
     };
+
+    this.currencyPopupRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrency();
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+  handleClickOutside(event) {
+    if (
+      this.currencyPopupRef.current &&
+      !this.currencyPopupRef.current.contains(event.target)
+    ) {
+      this.setState({ isCurrencyPopupOpen: false });
+    }
+  }
   setIsCurrencyPopupOpen(value) {
     this.setState({ isCurrencyPopupOpen: value });
   }
@@ -40,18 +55,23 @@ class Navbar extends Component {
     this.setState({ isCartPopupOpen: value });
   }
   render() {
+    console.log("djjdjdj", this.props.cartItems);
+
     return (
       <>
         <div className="nav">
           <nav className="nav-links">
-            <NavLink className="nav-item" to="/clothes" activestyle>
+            <NavLink className="nav-item" to="/">
+              All
+            </NavLink>
+            <NavLink className="nav-item" to="/clothes">
               CLOTHES
             </NavLink>
-            <NavLink className="nav-item" to="/tech" activestyle>
+            <NavLink className="nav-item" to="/tech">
               TECH
             </NavLink>
           </nav>
-          <NavLink className="nav-item home-icon" to="/" activestyle>
+          <NavLink className="nav-item home-icon" to="/">
             <LogoIcon />
           </NavLink>
           <div className="nav-actions">
@@ -67,12 +87,18 @@ class Navbar extends Component {
                 <CaretDownIcon />
               </div>
               {this.state.isCurrencyPopupOpen && (
-                <div className="currency-switcher-popup">
+                <div
+                  className="currency-switcher-popup"
+                  ref={this.currencyPopupRef}
+                >
                   {this.state.currencies.map((c, index) => (
                     <div
                       className="currency-item"
                       key={`currency-${index}`}
-                      onClick={() => this.props.changeCurrency(c)}
+                      onClick={() => {
+                        this.props.changeCurrency(c);
+                        this.setIsCurrencyPopupOpen(false);
+                      }}
                     >
                       {c.symbol + " " + c.name}
                     </div>
@@ -97,7 +123,7 @@ class Navbar extends Component {
                 <div className="cart-popup-overlay">
                   <div className="cart-popup">
                     <p className="cart-title">
-                      <span className="bold-text">My Bag,</span>{" "}
+                      <span className="bold-text">My Bag,</span>
                       {this.props.cartItems.length} items
                     </p>
                     <div className="cart-list">
@@ -121,11 +147,20 @@ class Navbar extends Component {
                                       product,
                                       product.qty,
                                       product.sizes,
-                                      indx
+                                      [
+                                        ...product.selectedSize.filter(
+                                          (_, i) => i !== 0
+                                        ),
+                                        {
+                                          name: product.selectedSize[0].name,
+                                          value: indx,
+                                        },
+                                      ]
                                     )
                                   }
                                   key={indx}
                                   className={`cart-product-size-box ${
+                                    product.selectedSize[0]?.value === indx ||
                                     product.selectedSize === indx
                                       ? "selected-size"
                                       : ""

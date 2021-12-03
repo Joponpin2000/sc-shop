@@ -44,6 +44,7 @@ input:-webkit-autofill:active {
   height: 4px;
   background: rgb(184, 180, 180);
   border-radius: 100%;
+  display: none;
 }
 *::-webkit-scrollbar-thumb {
   background: #1dcf65;
