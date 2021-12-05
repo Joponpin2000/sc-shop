@@ -60,6 +60,16 @@ class Home extends Component {
     }
   }
 
+  handleClick(e, product) {
+    console.log(e);
+    this.props.addToCart(product, 1, product?.attributes[0]?.items ?? [], [
+      {
+        name: product?.attributes[0]?.name,
+        value: 0,
+      },
+    ]);
+  }
+
   render() {
     return (
       <div className="CategoryContainer">
@@ -68,7 +78,11 @@ class Home extends Component {
           {this.state.products &&
             this.state.products.length > 1 &&
             this.state.products.map((product, index) => (
-              <div key={index} className="product-card">
+              <Link
+                to={`/product/${product.id}`}
+                key={index}
+                className="product-card"
+              >
                 <div className="product-img">
                   <img src={product.gallery[0]} alt="product" />
                   {!product.inStock && (
@@ -79,25 +93,13 @@ class Home extends Component {
                   {product.inStock && (
                     <div
                       className="add-to-cart-icon"
-                      onClick={() =>
-                        this.props.addToCart(
-                          product,
-                          1,
-                          product?.attributes[0]?.items ?? [],
-                          [
-                            {
-                              name: product?.attributes[0]?.name,
-                              value: 0,
-                            },
-                          ]
-                        )
-                      }
+                      onClick={(e) => this.handleClick(e, product)}
                     >
-                      <AddToCartIcon className="add-to-cart-icon" />
+                      <AddToCartIcon />
                     </div>
                   )}
                 </div>
-                <Link to={`/product/${product.id}`} className="product-desc">
+                <div className="product-desc">
                   <p className="product-name"> {product.name}</p>
                   <p className="product-price">
                     {this.props.currency.symbol}
@@ -107,8 +109,8 @@ class Home extends Component {
                       ).amount
                     }
                   </p>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
         </div>
       </div>

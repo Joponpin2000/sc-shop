@@ -68,7 +68,7 @@ class Tech extends Component {
           {this.state.products &&
             this.state.products.length > 1 &&
             this.state.products.map((product, index) => (
-              <div key={index} className="product-card">
+              <Link to={`/product/${product.id}`} key={index} className="product-card">
                 <div className="product-img">
                   <img src={product.gallery[0]} alt="product" />
                   {!product.inStock && (
@@ -97,7 +97,7 @@ class Tech extends Component {
                     </div>
                   )}
                 </div>
-                <Link to={`/product/${product.id}`} className="product-desc">
+                <div className="product-desc">
                   <p className="product-name"> {product.name}</p>
                   <p className="product-price">
                     {this.props.currency.symbol}
@@ -107,8 +107,8 @@ class Tech extends Component {
                       ).amount
                     }
                   </p>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
         </div>
       </div>

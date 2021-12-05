@@ -19,6 +19,8 @@
   height: 444px;
   padding: 16px;
   background: #fff;
+  color: inherit;
+  text-decoration: none;
 }
 
 .product-card:hover {
@@ -66,8 +68,6 @@
 
 .product-desc {
   height: 15% !important;
-  color: inherit;
-  text-decoration: none;
 }
 
 .product-name {

@@ -89,7 +89,41 @@
   font-weight: 500;
 }
 
+.cs-item-side .img-div {
+  max-width: 70% !important;
+  max-height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .cs-item-side img {
-  width: 70%;
+  width: 90%;
   height: 100%;
+}
+
+.cs-item-side .img-toggle {
+  position: absolute;
+  /* top: 55px; */
+  text-align: center;
+  border: 1px solid gray;
+  height: 16px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  background-color: rgba(128, 128, 128, 0.356);
+}
+
+.cs-item-side .img-left-toggle {
+  left: 0;
+  transform: rotate(90deg);
+}
+
+.cs-item-side .img-right-toggle {
+  position: absolute;
+  right: 0;
+  transform: rotate(-90deg);
 }

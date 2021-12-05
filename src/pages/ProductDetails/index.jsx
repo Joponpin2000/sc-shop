@@ -159,7 +159,7 @@ export class ProductDetails extends Component {
                 this.props.addToCart(
                   this.state.product,
                   1,
-                  this.state?.product?.attributes[0]?.items,
+                  this.state?.product?.attributes[0]?.items ?? [],
                   this.state.selectedSizeIndex.length > 0
                     ? this.state.selectedSizeIndex
                     : [

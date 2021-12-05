@@ -26,10 +26,12 @@ class Navbar extends Component {
         { symbol: "¥", name: "JPY" },
         { symbol: "₽", name: "RUB" },
       ],
+      displayImageIndex: [],
     };
 
     this.currencyPopupRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.setDisplayImageIndex = this.setDisplayImageIndex.bind(this);
   }
 
   componentDidMount() {
@@ -54,9 +56,24 @@ class Navbar extends Component {
   setIsCartPopupOpen(value) {
     this.setState({ isCartPopupOpen: value });
   }
+  setDisplayImageIndex(product, indx) {
+    this.state.displayImageIndex.filter((obj) => obj.name === product)[0]?.name
+      ? this.setState({
+          displayImageIndex: [
+            ...this.state.displayImageIndex.filter(
+              (obj) => obj.name !== product
+            ),
+            { name: product, value: indx },
+          ],
+        })
+      : this.setState({
+          displayImageIndex: [
+            ...this.state.displayImageIndex,
+            { name: product, value: indx },
+          ],
+        });
+  }
   render() {
-    console.log("djjdjdj", this.props.cartItems);
-
     return (
       <>
         <div className="nav">
@@ -204,7 +221,68 @@ class Navbar extends Component {
                                 -
                               </div>
                             </div>
-                            <img src={product.gallery[0]} alt="cart item" />
+                            <div className="img-div">
+                              <div
+                                style={{
+                                  cursor:
+                                    (this.state.displayImageIndex.filter(
+                                      (obj) => obj.name === product?.id
+                                    )[0]?.value ?? 0) > 0
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                onClick={() =>
+                                  (this.state.displayImageIndex.filter(
+                                    (obj) => obj.name === product?.id
+                                  )[0]?.value ?? 0) > 0 &&
+                                  this.setDisplayImageIndex(
+                                    product?.id,
+                                    this.state.displayImageIndex.filter(
+                                      (obj) => obj.name === product?.id
+                                    )[0]?.value - 1
+                                  )
+                                }
+                                className="img-toggle img-left-toggle"
+                              >
+                                <CaretDownIcon />
+                              </div>
+                              <img
+                                src={
+                                  product.gallery[
+                                    this.state.displayImageIndex.filter(
+                                      (obj) => obj.name === product?.id
+                                    )[0]?.value ?? 0
+                                  ]
+                                }
+                                alt="cart item"
+                              />
+                              <div
+                                onClick={() =>
+                                  (this.state.displayImageIndex.filter(
+                                    (obj) => obj.name === product?.id
+                                  )[0]?.value ?? 0) <
+                                    product?.gallery?.length - 1 &&
+                                  this.setDisplayImageIndex(
+                                    product?.id,
+                                    (this.state.displayImageIndex.filter(
+                                      (obj) => obj.name === product?.id
+                                    )[0]?.value ?? 0) + 1
+                                  )
+                                }
+                                style={{
+                                  cursor:
+                                    (this.state.displayImageIndex.filter(
+                                      (obj) => obj.name === product?.id
+                                    )[0]?.value ?? 0) <
+                                    product?.gallery?.length - 1
+                                      ? "pointer"
+                                      : "not-allowed",
+                                }}
+                                className="img-toggle img-right-toggle"
+                              >
+                                <CaretDownIcon />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       ))}
