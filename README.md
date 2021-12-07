@@ -7,6 +7,8 @@
 
 To run this app, there's a .env.example file that contains the format for the config data needed for the app to run. Create a .env file at the root of the folder and include the respective config inside.
 
+NOTE: Any changes made to the .env file will only reflect after restarting the server.
+
 ## Available Scripts
 
 In the project directory, you can run:
