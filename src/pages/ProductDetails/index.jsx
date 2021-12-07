@@ -36,9 +36,10 @@ export class ProductDetails extends Component {
         });
   }
   async componentDidMount() {
+    const apiEndpoint = process.env.REACT_APP_GRAPHQL_API_ENDPOINT;
     try {
       var client = new ApolloClient({
-        uri: "http://localhost:4000",
+        uri: apiEndpoint,
       });
 
       var { product } = await client

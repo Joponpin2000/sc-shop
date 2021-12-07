@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import AddToCartIcon from "../../vectors/AddToCartIcon";
 import "./Category.css";
 
+
 class Clothes extends Component {
   constructor() {
     super();
@@ -16,9 +17,11 @@ class Clothes extends Component {
     };
   }
   async componentDidMount() {
+    const apiEndpoint = process.env.REACT_APP_GRAPHQL_API_ENDPOINT
+    console.log({apiEndpoint})
     try {
       var client = new ApolloClient({
-        uri: "http://localhost:4000",
+        uri: apiEndpoint,
       });
 
       var { products } = await client
