@@ -2,7 +2,7 @@ import { setCookie } from "../../helpers/cookies";
 import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_GET_NUMBER } from "./types";
 
 export const addToCart =
-  (product, qty, sizes, selectedSize) => async (dispatch, getState) => {
+  (product, qty, attributes, selectedSize) => async (dispatch, getState) => {
     try {
       dispatch({
         type: CART_ADD_ITEM,
@@ -12,7 +12,7 @@ export const addToCart =
           gallery: product.gallery,
           prices: product.prices,
           qty,
-          sizes,
+          attributes,
           selectedSize,
         },
       });

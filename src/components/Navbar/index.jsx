@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
 import CurrencyMath from "currency.js";
 import { connect } from "react-redux";
-import { addToCart } from "../../redux/actions/cartActions";
+import { addToCart, removeFromCart } from "../../redux/actions/cartActions";
 import {
   getCurrency,
   changeCurrency,
 } from "../../redux/actions/currencyActions";
+import TickIcon from "../../vectors/TickIcon";
 
 import CaretDownIcon from "../../vectors/CaretDownIcon";
 import CartIcon from "../../vectors/CartIcon";
@@ -43,6 +44,7 @@ class Navbar extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
   handleClickOutside(event) {
+    if (event.target.className === "currency") return;
     if (
       this.currencyPopupRef.current &&
       !this.currencyPopupRef.current.contains(event.target)
@@ -156,37 +158,92 @@ class Navbar extends Component {
                                 ).amount
                               }
                             </p>
-                            <div className="cart-product-sizes">
-                              {product.sizes.map((s, indx) => (
-                                <div
-                                  onClick={() =>
-                                    this.props.addToCart(
-                                      product,
-                                      product.qty,
-                                      product.sizes,
-                                      [
-                                        ...product.selectedSize.filter(
-                                          (_, i) => i !== 0
-                                        ),
-                                        {
-                                          name: product.selectedSize[0].name,
-                                          value: indx,
-                                        },
-                                      ]
-                                    )
-                                  }
-                                  key={indx}
-                                  className={`cart-product-size-box ${
-                                    product.selectedSize[0]?.value === indx ||
-                                    product.selectedSize === indx
-                                      ? "selected-size"
-                                      : ""
-                                  }`}
-                                >
-                                  {s.value}
+                            {product?.attributes &&
+                              product?.attributes?.map((attribute, atIndex) => (
+                                <div key={atIndex}>
+                                  <p className="cart-item-label-text">
+                                    {attribute.name}:
+                                  </p>
+                                  <div className="cart-product-sizes">
+                                    {attribute?.items?.map((s, indx) =>
+                                      attribute.name === "Color" ? (
+                                        <div
+                                          onClick={() =>
+                                            this.props.addToCart(
+                                              product,
+                                              product.qty,
+                                              product.attributes,
+                                              [
+                                                ...product.selectedSize.map(
+                                                  (size) => {
+                                                    if (
+                                                      size.name ===
+                                                      attribute.name
+                                                    )
+                                                      return {
+                                                        ...size,
+                                                        value: indx,
+                                                      };
+                                                    return size;
+                                                  }
+                                                ),
+                                              ]
+                                            )
+                                          }
+                                          key={indx}
+                                          style={{ backgroundColor: s.value }}
+                                          className={`cart-product-size-box ${
+                                            product.selectedSize[atIndex]
+                                              ?.value === indx ||
+                                            product.selectedSize === indx
+                                              ? "selected-size"
+                                              : ""
+                                          }`}
+                                        >
+                                          {product.selectedSize.filter(
+                                            (obj) => obj.name === attribute.name
+                                          )[0]?.value === indx && <TickIcon />}
+                                        </div>
+                                      ) : (
+                                        <div
+                                          onClick={() =>
+                                            this.props.addToCart(
+                                              product,
+                                              product.qty,
+                                              product.attributes,
+                                              [
+                                                ...product.selectedSize.map(
+                                                  (size) => {
+                                                    if (
+                                                      size.name ===
+                                                      attribute.name
+                                                    )
+                                                      return {
+                                                        ...size,
+                                                        value: indx,
+                                                      };
+                                                    return size;
+                                                  }
+                                                ),
+                                              ]
+                                            )
+                                          }
+                                          key={indx}
+                                          className={`cart-product-size-box ${
+                                            product.selectedSize[atIndex]
+                                              ?.value === indx ||
+                                            product.selectedSize === indx
+                                              ? "selected-size"
+                                              : ""
+                                          }`}
+                                        >
+                                          {s.value}
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
                                 </div>
                               ))}
-                            </div>
                           </div>
                           <div className="cart-item-img">
                             <div className="cart-item-actions">
@@ -197,7 +254,7 @@ class Navbar extends Component {
                                   this.props.addToCart(
                                     product,
                                     product.qty + 1,
-                                    product.sizes,
+                                    product.attributes,
                                     product.selectedSize
                                   )
                                 }
@@ -206,16 +263,19 @@ class Navbar extends Component {
                               </div>
                               <p className="cart-item-number">{product.qty}</p>
                               <div
-                                className={`cart-item-mutate-btn ${
-                                  product.qty === 1 ? "disabled" : ""
-                                }`}
+                                className={`cart-item-mutate-btn`}
                                 onClick={() =>
-                                  this.props.addToCart(
-                                    product,
-                                    product.qty === 1 ? 1 : product.qty - 1,
-                                    product.sizes,
-                                    product.selectedSize
-                                  )
+                                  product.qty === 1
+                                    ? window.confirm(
+                                        "Are you sure you want to remove item from cart?"
+                                      ) &&
+                                      this.props.removeFromCart(product?.id)
+                                    : this.props.addToCart(
+                                        product,
+                                        product.qty - 1,
+                                        product.attributes,
+                                        product.selectedSize
+                                      )
                                 }
                               >
                                 -
@@ -344,6 +404,7 @@ const mapStateToProps = (state) => ({
 });
 export default connect(mapStateToProps, {
   addToCart,
+  removeFromCart,
   getCurrency,
   changeCurrency,
 })(Navbar);

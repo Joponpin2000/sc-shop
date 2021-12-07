@@ -60,6 +60,26 @@ class Clothes extends Component {
     }
   }
 
+  handleClick(e, product) {
+    if (
+      e.target.tagName === "circle" ||
+      e.target.dataset.name === "cart-icon"
+    ) {
+      this.props.addToCart(
+        product,
+        1,
+        product?.attributes ?? [],
+        product?.attributes?.map((at) => ({
+          name: at?.name,
+          value: 0,
+        }))
+      );
+      return;
+    }
+
+    window.location.href = `/product/${product.id}`;
+  }
+
   render() {
     return (
       <div className="CategoryContainer">
@@ -68,7 +88,12 @@ class Clothes extends Component {
           {this.state.products &&
             this.state.products.length > 1 &&
             this.state.products.map((product, index) => (
-              <Link to={`/product/${product.id}`} key={index} className="product-card">
+              <div
+                onClick={(event) => this.handleClick(event, product)}
+                key={index}
+                className="product-card"
+                data-name="product-card"
+              >
                 <div className="product-img">
                   <img src={product.gallery[0]} alt="product" />
                   {!product.inStock && (
@@ -77,27 +102,16 @@ class Clothes extends Component {
                     </div>
                   )}
                   {product.inStock && (
-                    <div
-                      className="add-to-cart-icon"
-                      onClick={() =>
-                        this.props.addToCart(
-                          product,
-                          1,
-                          product?.attributes[0]?.items,
-                          [
-                            {
-                              name: product?.attributes[0]?.name,
-                              value: 0,
-                            },
-                          ]
-                        )
-                      }
-                    >
+                    <div className="add-to-cart-icon">
                       <AddToCartIcon className="add-to-cart-icon" />
                     </div>
                   )}
                 </div>
-                <div className="product-desc">
+                <div
+                  className={`product-desc ${
+                    !product.inStock ? "grey-text" : ""
+                  }`}
+                >
                   <p className="product-name"> {product.name}</p>
                   <p className="product-price">
                     {this.props.currency.symbol}
@@ -108,7 +122,7 @@ class Clothes extends Component {
                     }
                   </p>
                 </div>
-              </Link>
+              </div>
             ))}
         </div>
       </div>

@@ -14,9 +14,18 @@
   margin-right: 40px;
   flex-direction: column;
 }
-.side-images img {
+.side-images .img-div {
   height: 80px;
   margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.side-images img {
+  max-height: 100px;
+  max-width: 70%;
 }
 .ProductDetailsContainer .product-img {
   width: 40%;

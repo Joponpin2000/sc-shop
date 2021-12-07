@@ -7,12 +7,20 @@
   font-size: 32px;
   font-weight: 700;
 }
+
 .cart-screen-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid #e5e5e5;
   padding: 20px 0;
+  overflow-y: hidden;
+  max-height: 200px;
+}
+
+.cs-item-desc {
+  overflow-y: auto;
+  max-height: 185px;
 }
 
 .cs-item-name {

@@ -4277,11 +4277,6 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-currency-math@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/currency-math/-/currency-math-0.0.4.tgz#098512a08e7e41417c73486b14966881adc62a02"
-  integrity sha1-CYUSoI5+QUF8c0hrFJZoga3GKgI=
-
 currency.js@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/currency.js/-/currency.js-2.0.4.tgz#a8a4d69be3b2e509bf67a560c78220bc04809cf1"
@@ -9554,7 +9549,7 @@ react-router-dom@^6.0.2:
     history "^5.1.0"
     react-router "6.0.2"
 
-react-router@6.0.2:
+react-router@6.0.2, react-router@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.0.2.tgz#bd2b0fa84fd1d152671e9f654d9c0b1f5a7c86da"
   integrity sha512-8/Wm3Ed8t7TuedXjAvV39+c8j0vwrI5qVsYqjFr5WkJjsJpEvNSoLRUbtqSEYzqaTUj1IV+sbPJxvO+accvU0Q==

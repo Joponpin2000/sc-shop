@@ -15,6 +15,7 @@ export class ProductDetails extends Component {
       id: window.location.pathname.slice(9),
       product: {},
       selectedSizeIndex: [],
+      displayImageIndex: 0,
     };
     this.setSelectedSizeIndex = this.setSelectedSizeIndex.bind(this);
   }
@@ -87,12 +88,31 @@ export class ProductDetails extends Component {
           <div className="side-images">
             {images.length > 0 &&
               images.map((i, index) => (
-                <img src={i} key={index} alt="gallery" />
+                <div
+                  className="img-div"
+                  style={{
+                    border:
+                      this.state.displayImageIndex === index
+                        ? "1px solid #5ece7b"
+                        : "",
+                  }}
+                  key={index}
+                  onClick={() =>
+                    this.setState({
+                      displayImageIndex: index,
+                    })
+                  }
+                >
+                  <img src={i} alt="gallery" />
+                </div>
               ))}
           </div>
           <div className="product-img">
             {this.state.product.gallery && (
-              <img src={this.state.product?.gallery[0]} alt="" />
+              <img
+                src={this.state.product?.gallery[this.state.displayImageIndex]}
+                alt=""
+              />
             )}
             {!this.state.product?.inStock && (
               <div className="out-of-stock-flag">
@@ -159,7 +179,7 @@ export class ProductDetails extends Component {
                 this.props.addToCart(
                   this.state.product,
                   1,
-                  this.state?.product?.attributes[0]?.items ?? [],
+                  this.state?.product?.attributes ?? [],
                   this.state.selectedSizeIndex.length > 0
                     ? this.state.selectedSizeIndex
                     : [
